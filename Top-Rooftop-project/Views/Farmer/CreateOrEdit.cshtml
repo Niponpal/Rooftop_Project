@@ -1,0 +1,187 @@
+﻿@model Top_Rooftop_project.ModelVm.FarmerVm
+@{
+
+}
+
+
+<div class="container mt-3">
+    <form asp-action="CreateOrEdit" asp-controller="Farmer" method="post" enctype="multipart/form-data">
+        <div class="form-group mt-3">
+            <label asp-for="Name" class="mt-3">Enter Your Name</label>
+            <input asp-for="Name" class="form-control" placeholder="Enter Name">
+        </div>
+        <div class="form-group mt-3">
+            <label asp-for="Email" class="mt-3">Enter Your Email</label>
+            <input asp-for="Email" class="form-control" placeholder="Enter Email">
+        </div>
+        <div class="form-group mt-3">
+            <label asp-for="SquarFeet" class="mt-3">Enter Your SquarFeet</label>
+            <input asp-for="SquarFeet" class="form-control" placeholder="Enter SquarFeet">
+        </div>
+        <div class="form-group mt-3">
+            <label asp-for="Location" class="mt-3">Enter Your Location</label>
+            <input asp-for="Location" class="form-control" placeholder="Enter Location">
+        </div>
+        <div class="form-group mt-3">
+            <label asp-for="Image1" class="mt-3">Enter Your Image</label>
+            <input asp-for="Image1" id="FileUpload" name="photo" onchange="PreviewImage()" type="file" placeholder="Enter Your Imaga" />
+        </div>
+
+        <div class="form-group">
+            <img src="~/Image/@Model.Image1" id="UploadFile" class="img-thumbnail" style="width:170px;" />
+        </div>
+
+        <div class="form-group mt-3">
+            <label asp-for="Image2" class="mt-3">Enter Your Image</label>
+            <input asp-for="Image2" id="FileUpload2" name="photo2" onchange="PreviewImage2()" type="file" placeholder="Enter Your Imaga" />
+        </div>
+
+        <div class="form-group">
+            <img src="~/Image/@Model.Image2" id="UploadFile2" class="img-thumbnail" style="width:170px;" />
+        </div>
+
+        <div class="form-group mt-3">
+            <label asp-for="Image3" class="mt-3">Enter Your Image</label>
+            <input asp-for="Image3" id="FileUpload3" name="photo3" onchange="PreviewImage3()" type="file" placeholder="Enter Your Imaga" />
+        </div>
+
+        <div class="form-group">
+            <img src="~/Image/@Model.Image3" id="UploadFile3" class="img-thumbnail" style="width:170px;" />
+        </div>
+
+        <div class="form-group mt-3">
+            <label asp-for="GoogleMap" class="mt-3">Enter Your GoogleMap</label>
+            <input asp-for="GoogleMap" class="form-control" placeholder="Enter GoogleMap"/>
+        </div>
+        <div class="form-group mt-3">
+            <label asp-for="SomeDetails" class="mt-3">Enter Your SomeDetails</label>
+            <input asp-for="SomeDetails" class="form-control" placeholder="Enter SomeDetails"/>
+        </div>
+        <div class="form-group mt-3">
+            <label asp-for="MoreDetails" class="mt-3">Enter Your MoreDetails</label>
+            <input asp-for="MoreDetails" class="form-control" placeholder="Enter MoreDetails"/>
+        </div>
+        <div class="form-group mt-3">
+            <label asp-for="Price" class="mt-3">Enter Your Price</label>
+            <input asp-for="Price" class="form-control" placeholder="Enter Price"/>
+        </div> 
+
+        
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+
+
+
+@section Scripts {
+    <script>
+        function PreviewImage() {
+            var preview = document.getElementById("UploadFile");
+            var fileInput = document.getElementById("FileUpload");
+
+            // Ensure that the file input has files
+            if (fileInput.files && fileInput.files[0]) {
+                var reader = new FileReader();
+
+
+                reader.onload = function (e) {
+                    preview.src = e.target.result; // Set the source of the preview image to the base64-encoded image data
+                };
+
+
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        }
+
+        function PreviewImage2() {
+            var preview = document.getElementById("UploadFile2");
+            var fileInput = document.getElementById("FileUpload2");
+
+            // Ensure that the file input has files
+            if (fileInput.files && fileInput.files[0]) {
+                var reader = new FileReader();
+
+
+                reader.onload = function (e) {
+                    preview.src = e.target.result; // Set the source of the preview image to the base64-encoded image data
+                };
+
+
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+
+        }
+
+        function PreviewImage3() {
+            var preview = document.getElementById("UploadFile3");
+            var fileInput = document.getElementById("FileUpload3");
+
+            // Ensure that the file input has files
+            if (fileInput.files && fileInput.files[0]) {
+                var reader = new FileReader();
+
+
+                reader.onload = function (e) {
+                    preview.src = e.target.result; // Set the source of the preview image to the base64-encoded image data
+                };
+
+
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        }
+    </script>
+
+
+    @* Image ajex *@
+
+
+
+    <script>
+        $(document).ready(function () {
+            $('form').submit(function (e) {
+                e.preventDefault();
+
+                var formData = new FormData($(this)[0]);
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: response.message,
+                                showConfiguratonButton: false,
+                                timer: 1500
+                            }).then(function () {
+                                window.location.href = '@Url.Action("Index", "Farmer")';
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: response.message,
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Data failed!'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+}
+
+
+

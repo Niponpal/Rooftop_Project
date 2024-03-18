@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Top_Rooftop_project.ModelVm.FarmerVm>
+@{
+    int idNo = 1;
+
+}
+<a asp-action="CreateOrEdit" asp-controller="Farmer" class="btn btn-dark" >Input</a>
+<table class="table table-bordered table-dark" id="FarmerTable">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>SquarFeet</th>
+            <th>Location</th>
+            <th>Image1</th>
+            <th>Image2</th>
+            <th>Image3</th>
+            <th>GogoleMap</th>
+            <th>SomeDetails</th>
+            <th>MoreDetails</th>
+            <th>Price</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>@idNo</td>
+                <td>@item.Name</td>
+                <td>@item.Email</td>
+                <td>@item.SquarFeet</td>
+                <td>@item.Location</td>
+                <td>
+                    <img class="img-thumbnail" width="50" src="~/Image/@item.Image1" />
+                </td>
+                <td>
+                    <img class="img-thumbnail" width="50" src="~/Image/@item.Image2" />
+                </td>
+                <td>
+                    <img class="img-thumbnail" width="50" src="~/Image/@item.Image3" />
+                </td>
+                <td>@item.GoogleMap</td>
+                <td>@item.SomeDetails</td>
+                <td>@item.MoreDetails</td>
+                <td>@item.Price</td>
+                <td>
+                    <a asp-action="CreateOrEdit" asp-controller="Farmer" asp-route-id="@item.Id" class="btn btn-success">Edit</a>
+                    <a asp-action="Delted" asp-controller="Farmer" asp-route-id="@item.Id" class="btn btn-danger" onclick="return confirm('Are You Sure Delted this')">Delted</a>
+                    <a asp-action="Details" asp-controller="Farmer" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
+                </td>
+            </tr>
+            idNo++;
+        }
+    </tbody>
+</table>
+
+
+@section Scripts {
+    <script>
+        new DataTable('#FarmerTable');
+    </script>
+}

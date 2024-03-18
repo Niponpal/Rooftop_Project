@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Top_Rooftop_project.ModelVm.PaymentVm>
+@{
+   int idNo = 1;
+}
+
+<a asp-action="CreateOrEdit" asp-controller="Payment" class="btn btn-dark">Input</a>
+
+<table class="table table-bordered table-dark" id="PaymentTalbe">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Transid</th>
+            <th>Email</th>
+            <th>IsPaymentConfirm</th>
+            <th>CartItems</th>
+            <th>OrderTime</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@idNo</td>
+                <td>@item.TransId</td>
+                <td>@item.Email</td>
+                <td>@item.IsPaymentConfirm</td>
+                <td>@item.Cartitems</td>
+                <td>@item.OrderTime</td>
+                <td>
+                    <a asp-action="CreateOrEdit" asp-controller="Payment" asp-route-id="@item.Id" class="btn btn-success">Edit</a>
+                    <a asp-action="Delted" asp-controller="Payment" asp-route-id="@item.Id" class="btn btn-danger" id="confirm-btn">Delted</a>
+                    <a asp-action="Details" asp-controller="Payment" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
+                </td>
+            </tr>
+            idNo++;
+        }
+    </tbody>
+</table>
+
+
+@section Scripts {
+    <script>
+        new DataTable('#PaymentTalbe');
+    </script>
+}
+
+
+

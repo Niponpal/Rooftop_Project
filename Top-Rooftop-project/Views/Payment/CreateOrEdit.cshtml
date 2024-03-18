@@ -1,0 +1,78 @@
+﻿@model Top_Rooftop_project.ModelVm.PaymentVm
+@{
+
+}
+
+<div class="container mt-3">
+    <form asp-action="CreateOrEdit" asp-controller="Payment" method="post">
+
+        <div class="form-group mt-3">
+            <label asp-for="TransId" class="mt-3">Enter Your TransId</label>
+            <input asp-for="TransId" class="form-control" placeholder="Enter TransId">
+        </div>
+        <div class="form-group mt-3">
+            <label asp-for="Email" class="mt-3">Enter Your Email</label>
+            <input asp-for="Email" class="form-control" placeholder="Enter Email">
+        </div>
+        <div class="form-group mt-3">
+            <label asp-for="IsPaymentConfirm" class="mt-3">Enter Your IsPaymentConfirm</label>
+            <input asp-for="IsPaymentConfirm" class="form-control" placeholder="Enter IsPaymentConfirm">
+        </div>
+        <div class="form-group mt-3">
+            <label asp-for="Cartitems" class="mt-3">Enter Your Cartitems</label>
+            <input asp-for="Cartitems" class="form-control" placeholder="Enter Cartitems">
+        </div>
+        <div class="form-group mt-3">
+            <label asp-for="OrderTime" class="mt-3">Enter Your OrderTime</label>
+            <input asp-for="OrderTime" class="form-control" placeholder="Enter OrderTime">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            debugger;
+            $('form').submit(function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: response.message,
+                                showConfiguratonButton: false,
+                                timer: 1500
+                            }).then(function () {
+                                window.location.href = '@Url.Action("Index", "Payment")';
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: response.message
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "Something went wrong!",
+                            footer: '<a href="#">Why do I have this issue?</a>'
+                        });
+                    }
+                });
+            });
+        });
+
+    </script>
+
+}
